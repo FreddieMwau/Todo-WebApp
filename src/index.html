@@ -13,15 +13,16 @@
     <div class="container">
         <div id="new-task">
             <h4>Add Task</h4>
-            <input type="text" placeholder="New task.....">
-            <input type="text" placeholder="Task description">
-            <button id="push">Add Task</button>
+            <input type="text" class="todoTitle" id="todoTitle" placeholder="New task.....">
+            <input type="text" class="todoDescription" id="todoDescription" placeholder="Task description">
+            <input type="date" class="todoDate" id="todoDate" placeholder="Task description">
+            <button id="addBtn">Add Task</button>
         </div>
 
+        <!-- On going and new tasks container -->
         <div class="tasks" id="tasks">
+            <h4 class="newTask">New and Ongoing Tasks</h4>
             <div class="task">
-                <!-- <input type="checkbox" id="checkbox"> -->
-
                 <!-- <div class="color"></div> -->
                 <div class="task-info">
                     <h4 class="todoTitle">Report</h4>
@@ -29,8 +30,7 @@
 
                     <div class="time-status">
                         <p class="date">
-                            <img src="/src/images/calendar.png" width="20px" height="20px" alt="">
-                            <!-- <ion-icon name="time-outline"></ion-icon> -->
+                            <img src="/src/images/calendar.png" alt="">
                             2022-04-28
                         </p>
 
@@ -38,9 +38,32 @@
                     </div>
 
                     <div class="actions">
-                        <!-- <ion-icon name="create-outline" onClick="editTask(this)"></ion-icon> -->
+                        <img src="/src/images/quillpen.png" class="editBtn" alt="editTask">
 
-                        <!-- <ion-icon name="trash-outline"  onClick="deleteTask(this)"></ion-icon> -->
+                        <img src="/src/images/delete.png" class="deleteBtn" alt="deleteTask">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed tasks container -->
+        <div class="completed-container" id="completed-container">
+            <h4 class="completedHint">Completed Tasks</h4>
+            <div class="completed-tasks" id="completed-tasks">
+                <div class="completed-task">
+                    <div class="completed-task-info">
+                        <h4 class="todoTitle">Report</h4>
+                        <p class="todoDescription">Write week 4 training report</p>
+                    
+                        <div class="time-status">
+                            <p class="date">
+                                <img src="/src/images/calendar.png" alt="">
+                                2022-04-28
+                            </p>
+                    
+                            <button id="done" onclick="markDone(this)">Completed</button>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

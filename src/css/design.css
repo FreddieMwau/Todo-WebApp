@@ -79,11 +79,117 @@ body{
 
 .tasks .task{
     display: flex;
-    border:  1px solid blue;
-    padding: 10px;
+    /* border:  1px solid blue; */
+    /* padding: 10px; */
+}
+
+.tasks h4.newTask,
+.completed-container h4.completedHint{
+    color: dimgray;
+    font-family: 'Courier New',
+    Courier,
+    monospace;
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-align: center;
 }
 
 .tasks .task .task-info{
     display: flex;
     flex-direction: column;
+    /* padding: 5px; */
 }
+
+.tasks .task .task-info h4.todoTitle,
+.completed-container .completed-tasks .completed-task .completed-task-info h4.todoTitle{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    color: black;
+}
+
+.tasks .task .task-info p.todoDescription,
+.completed-container .completed-tasks .completed-task .completed-task-info p.todoDescription{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: dimgray;
+    margin: 10px 0;
+}
+
+.tasks .task .task-info .time-status,
+.completed-container .completed-tasks .completed-task .completed-task-info .time-status{
+    display: flex;
+    justify-content: space-between;
+    width: 85vh;
+    padding: 5px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tasks .task .task-info .time-status p,
+.completed-container .completed-tasks .completed-task .completed-task-info p{
+    font-family: 'Courier New', Courier, monospace;
+    color: dimgray;
+    font-size: 15px;
+    align-items: center;
+}
+
+.tasks .task .task-info .time-status p.date img,
+.completed-container .completed-tasks .completed-task .completed-task-info p.date img{
+    height: 15px;
+    width: 15px;
+}
+
+.completed-container .completed-tasks .completed-task .completed-task-info button{
+    float: right;
+    width: 20%;
+    height: 45px;
+    border-radius: 5px;
+    font-family: 'Poppins',
+    sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    background-color: #48a163;
+    border: none;
+    color: white;
+    cursor: not-allowed;
+}
+
+.tasks .task .task-info .time-status button{
+    float: right;
+    width: 20%;
+    height: 45px;
+    border-radius: 5px;
+    font-family: 'Poppins',
+    sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    background-color: #8052ec;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+.tasks .task .task-info .actions{
+    width: 6rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.tasks .task .task-info .actions img{
+    height: 25px;
+    width: 25px;
+    color: blue;
+    cursor: pointer;
+}
+
+#completed-container{
+    background-color: white;
+    padding: 30px 20px;
+    margin-top: 70px;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    position: relative;
+}
+
