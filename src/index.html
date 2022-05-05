@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudfare.com/ajax/libs/font-awesome/5.15.2/css/all/min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo WebApp</title>
+    <link rel="stylesheet" href="/src/css/design.css">
+</head>
+<body>
+    <div class="container">
+        <div id="new-task">
+            <h4>Add Task</h4>
+            <input type="text" placeholder="New task.....">
+            <input type="text" placeholder="Task description">
+            <button id="push">Add Task</button>
+        </div>
+
+        <div class="tasks" id="tasks">
+            <div class="task">
+                <!-- <input type="checkbox" id="checkbox"> -->
+
+                <!-- <div class="color"></div> -->
+                <div class="task-info">
+                    <h4 class="todoTitle">Report</h4>
+                    <p class="todoDescription">Write week 4 training report</p>
+
+                    <div class="time-status">
+                        <p class="date">
+                            <img src="/src/images/calendar.png" width="20px" height="20px" alt="">
+                            <!-- <ion-icon name="time-outline"></ion-icon> -->
+                            2022-04-28
+                        </p>
+
+                        <button id="done" onclick="markDone(this)">Mark as Done</button>
+                    </div>
+
+                    <div class="actions">
+                        <!-- <ion-icon name="create-outline" onClick="editTask(this)"></ion-icon> -->
+
+                        <!-- <ion-icon name="trash-outline"  onClick="deleteTask(this)"></ion-icon> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/src/trial.js"></script>
+</body>
+</html>
