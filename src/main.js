@@ -3,8 +3,6 @@ class Test {
     titleInput = document.getElementById('todoTitle');
     descriptionInput = document.getElementById('todoDescription');
     dateInput = document.getElementById('todoDate');
-    addTaskBtn = document.getElementById('addBtn');
-    alert = document.querySelector('#alertBox');
     form = document.querySelector('#newTask');
     alertMsg = document.getElementById('message');
     constructor() {
@@ -53,13 +51,13 @@ class Test {
 class TaskHandler {
     onGoingTaskContainerElement = document.getElementById('tasksContainer');
     completedTaskContainerElement = document.getElementById('completed-tasks');
-    todoMsg = document.getElementById('completeData');
+    todoMsg = document.getElementById('noData');
     todoCompletedMsg = document.getElementById('completedData');
     alertMsg = document.getElementById('message');
     constructor() { }
     async getAllTasks() {
         let noData;
-        const allData = new Promise(async (resolve, reject) => {
+        new Promise(async (resolve, reject) => {
             console.log("Arrived");
             await fetch('http://localhost:4000/toDo/getUncompleted', {
                 method: 'GET'
@@ -70,20 +68,19 @@ class TaskHandler {
                 //     console.log("============> Resolved data"+data);
                 // })
                 .then(res => res.json())
-                .then((allTasks) => {
+                .then((allUncompletedTasks) => {
                 // console.log("Tasks");
-                console.log(allTasks);
-                if (allTasks.length == 0) {
-                    noData = 'No ToDo tasks available';
+                console.log(allUncompletedTasks);
+                if (allUncompletedTasks.length == 0) {
+                    noData = 'No pending ToDo tasks available';
                     console.log(noData);
                     this.todoMsg.innerText = noData;
                 }
                 else {
-                    allTasks.map((todo) => {
+                    allUncompletedTasks.map((todo) => {
                         console.log(todo);
                         this.onGoingTaskContainerElement.innerHTML +=
                             `<div class="task">
-                                <div class="color"></div>
                                 <div class="task-info">
                                     <h4 class="todoTitle">${todo.title}</h4>
                                     <p class="todoDescription">${todo.description}</p>
@@ -108,13 +105,13 @@ class TaskHandler {
                 }
             })
                 .catch(error => {
-                reject(error.message);
+                // reject(error.message)
                 console.log("=====>Error rejected " + error.message);
             });
         });
-        allData.then((data) => {
-            console.log("Uncompletetask response ===> " + data);
-        });
+        // allData.then((data) => {
+        //     console.log("Uncompletetask response ===> " + data);
+        // })
     }
     async getAllCompletedTasks() {
         let completeData;
@@ -124,15 +121,15 @@ class TaskHandler {
                 method: 'GET'
             })
                 .then(res => res.json())
-                .then((allTasks) => {
-                console.log(allTasks);
-                if (allTasks.length == 0) {
+                .then((allCompletedTasks) => {
+                console.log(allCompletedTasks);
+                if (allCompletedTasks.length == 0) {
                     completeData = 'No Completed Tasks at the moment.';
                     console.log(completeData);
                     this.todoCompletedMsg.innerText = completeData;
                 }
                 else {
-                    allTasks.map((tasks) => {
+                    allCompletedTasks.map((tasks) => {
                         console.log(tasks);
                         this.completedTaskContainerElement.innerHTML +=
                             `<div class="completed-task">
