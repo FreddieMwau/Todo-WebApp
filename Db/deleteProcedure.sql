@@ -1,0 +1,5 @@
+CREATE PROCEDURE deleteTodo(@id VARCHAR (50))
+AS
+BEGIN
+    DELETE FROM ToDos WHERE id=@id
+END

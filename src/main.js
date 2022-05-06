@@ -51,22 +51,10 @@ class Test {
     }
 }
 class TaskHandler {
-    onGoingTaskDivElement = document.getElementById('tasks');
     onGoingTaskContainerElement = document.getElementById('tasksContainer');
-    completedTaskContainer = document.getElementById('completed-container');
-    completedTaskDivElement = document.getElementById('completed-tasks');
-    todoAlertDiv = document.getElementById('alertBox');
     todoMsg = document.getElementById('noData');
-    completeBtn = document.getElementById('done');
-    deleteBtn = document.getElementById('deleteBtn');
-    editBtn = document.getElementById('editBtn');
     alertMsg = document.getElementById('message');
-    constructor() {
-        // this.deleteBtn.addEventListener('click', (e) => {
-        //     e.preventDefault()
-        //     this.deleteTask()
-        // })
-    }
+    constructor() { }
     async getAllTasks() {
         let noData;
         const allData = new Promise(async (resolve, reject) => {
@@ -84,8 +72,9 @@ class TaskHandler {
                 // console.log("Tasks");
                 console.log(allTasks);
                 if (allTasks.length == 0) {
-                    console.log("No data");
                     noData = 'No ToDo tasks available';
+                    console.log(noData);
+                    this.todoMsg.innerText = noData;
                 }
                 else {
                     allTasks.map((todo) => {
@@ -94,7 +83,6 @@ class TaskHandler {
                             `<div class="task">
                                 <div class="color"></div>
                                 <div class="task-info">
-                                    <p class="noData"></p>
                                     <h4 class="todoTitle">${todo.title}</h4>
                                     <p class="todoDescription">${todo.description}</p>
 
@@ -108,9 +96,9 @@ class TaskHandler {
                                     </div>
 
                                     <div class="actions">
-                                        <img src="/src/images/quillpen.png" class="editBtn"  id="editBtn" alt="editTask">
+                                        <img src="/src/images/quillpen.png" onClick="updateTask('${todo.id}')" id="editBtn" alt="editTask">
 
-                                        <img src="/src/images/delete.png" class="deleteBtn" onClick="deleteTask('${todo.id}')" class="deleteBtn" alt="deleteTask">
+                                        <img src="/src/images/delete.png" onClick="deleteTask('${todo.id}')" class="deleteBtn" alt="deleteTask">
                                     </div>
                                 </div>
                             </div>`;
@@ -124,7 +112,6 @@ class TaskHandler {
         });
         allData.then(data => {
             console.log("====> The json " + data);
-            this.todoMsg.innerText = noData;
         });
     }
     deleteTask(id) {
@@ -137,17 +124,17 @@ class TaskHandler {
                 .then(res => res.json())
                 .then((response) => {
                 console.log(response.message);
+                this.alertMsg.className = response.message ? 'msg-success' : 'msg-error';
+                response.message ? this.alertMsg.innerText = response.message : response.error;
+                setTimeout(() => {
+                    this.reset();
+                    location.reload();
+                }, 3500);
             });
         });
-        deleteTask.then(data => {
-            console.log("Delete response ===> " + data);
-            this.alertMsg.className = data.message ? 'msg-success' : 'msg-error';
-            data.message ? this.alertMsg.innerText = data.message : data.error;
-            setTimeout(() => {
-                this.reset();
-                location.reload();
-            }, 1000);
-        });
+    }
+    updateTask(id) {
+        console.log("Update taskId ==>" + id);
     }
     reset() {
         this.alertMsg.innerText = '';
@@ -164,4 +151,7 @@ document.addEventListener('DOMContent', () => {
 // })
 let deleteTask = (id) => {
     new TaskHandler().deleteTask(id);
+};
+let updateTask = (id) => {
+    new TaskHandler().updateTask(id);
 };

@@ -25,6 +25,15 @@ body{
     background: linear-gradient(135deg, #6c6a70, #302f31);
 }
 
+#noData{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: red;
+    margin: 10px;
+}
+
 .container{
     border: 2px solid white;
     width: 50%;

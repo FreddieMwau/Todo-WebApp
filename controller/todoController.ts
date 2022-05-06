@@ -40,7 +40,7 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
     try{
         const id = req.params.id
         let dbPool = await mssql.connect(sqlConfig)
-        const { title, description, date, isCompleted } = req.body as { title: string, description: string, date: string, isCompleted: boolean }
+        const { title, description, date} = req.body as { title: string, description: string, date: string }
 
         // check if task exists
         const toDo = await dbPool.request()
@@ -56,7 +56,6 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
             .input('title', mssql.VarChar, title)
             .input('description', mssql.VarChar, description)
             .input('date', mssql.VarChar, date)
-            .input('isCompleted', mssql.Bit, isCompleted)
             .execute('updateToDo')
         res.json({message: "Task updated successfully"})
     } catch(error:any){
@@ -116,5 +115,27 @@ export const isCompletedStatus: RequestHandler<{id:string}> = async (req, res) =
 
     } catch(error: any){
         res.json({error: error.message})
+    }
+}
+
+// Get all completed tasks
+export const getAllCompletedToDos: RequestHandler = async (req, res) => {
+    try{
+        let dbPool = await mssql.connect(sqlConfig)
+        const completedTodos = await dbPool.request().execute('getCompletedToDos')
+        res.json(completedTodos.recordset)
+    } catch (error: any) {
+        res.json({error: error.message})
+    }
+}
+
+// Get all uncompleted tasks
+export const getAllUncompletedToDos: RequestHandler = async (req, res) => {
+    try {
+        let dbPool = await mssql.connect(sqlConfig)
+        const completedTodos = await dbPool.request().execute('getUnCompletedToDos')
+        res.json(completedTodos.recordset)
+    } catch (error: any) {
+        res.json({ error: error.message })
     }
 }

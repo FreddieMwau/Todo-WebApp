@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isCompletedStatus = exports.deleteToDo = exports.updateToDo = exports.getAllToDos = exports.createTodo = void 0;
+exports.getAllUncompletedToDos = exports.getAllCompletedToDos = exports.isCompletedStatus = exports.deleteToDo = exports.updateToDo = exports.getAllToDos = exports.createTodo = void 0;
 const uuid_1 = require("uuid");
 const mssql_1 = __importDefault(require("mssql"));
 const config_1 = __importDefault(require("../config/config"));
@@ -46,7 +46,7 @@ const updateToDo = async (req, res) => {
     try {
         const id = req.params.id;
         let dbPool = await mssql_1.default.connect(config_1.default);
-        const { title, description, date, isCompleted } = req.body;
+        const { title, description, date } = req.body;
         // check if task exists
         const toDo = await dbPool.request()
             .input('id', mssql_1.default.VarChar, id)
@@ -59,7 +59,6 @@ const updateToDo = async (req, res) => {
             .input('title', mssql_1.default.VarChar, title)
             .input('description', mssql_1.default.VarChar, description)
             .input('date', mssql_1.default.VarChar, date)
-            .input('isCompleted', mssql_1.default.Bit, isCompleted)
             .execute('updateToDo');
         res.json({ message: "Task updated successfully" });
     }
@@ -114,3 +113,27 @@ const isCompletedStatus = async (req, res) => {
     }
 };
 exports.isCompletedStatus = isCompletedStatus;
+// Get all completed tasks
+const getAllCompletedToDos = async (req, res) => {
+    try {
+        let dbPool = await mssql_1.default.connect(config_1.default);
+        const completedTodos = await dbPool.request().execute('getCompletedToDos');
+        res.json(completedTodos.recordset);
+    }
+    catch (error) {
+        res.json({ error: error.message });
+    }
+};
+exports.getAllCompletedToDos = getAllCompletedToDos;
+// Get all uncompleted tasks
+const getAllUncompletedToDos = async (req, res) => {
+    try {
+        let dbPool = await mssql_1.default.connect(config_1.default);
+        const completedTodos = await dbPool.request().execute('getUnCompletedToDos');
+        res.json(completedTodos.recordset);
+    }
+    catch (error) {
+        res.json({ error: error.message });
+    }
+};
+exports.getAllUncompletedToDos = getAllUncompletedToDos;
