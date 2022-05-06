@@ -53,7 +53,9 @@ body{
     border: 1px solid #638ca3;
     padding: 5px;
     border-radius: 5px;
-    margin-top: 120px;
+    /* width: 100%; */
+    margin-top: 30px;
+    /* position: fixed; */
 }
 
 #newTask{
@@ -61,7 +63,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 30px;
     background-color: white;
     padding: 30px 20px;
     border-radius: 5px;
@@ -236,12 +238,6 @@ body{
     cursor: pointer;
 }
 
-/* .bottom-border{
-    border-bottom: 2px solid grey;
-    margin-bottom: 10px;
-    margin-top: 5px;
-    width: 97%;
-} */
 #completed-container{
     background-color: white;
     padding: 30px 20px;

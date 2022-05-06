@@ -94,7 +94,7 @@ class TaskHandler {
                                             ${todo.date}
                                         </p>
 
-                                        <button id="done" onclick="markDone(this)">Mark as Done</button>
+                                        <button id="done" onclick="markAsCompleted('${todo.id}')">Mark as Done</button>
                                     </div>
 
                                     <div class="actions">
@@ -115,13 +115,10 @@ class TaskHandler {
         allData.then((data) => {
             console.log("Uncompletetask response ===> " + data);
         });
-        // allData.then(data => {
-        //     console.log("Uncompletetask response ===> " + data);
-        // })
     }
     async getAllCompletedTasks() {
         let completeData;
-        const allCompletedData = new Promise(async (resolve, reject) => {
+        new Promise(async (resolve, reject) => {
             console.log("New Arrivals");
             await fetch('http://localhost:4000/toDo/getCompleted', {
                 method: 'GET'
@@ -161,16 +158,35 @@ class TaskHandler {
                 reject(error.message);
             });
         });
-        allCompletedData.then(data => {
-            console.log("CompletedTask response ===> " + data);
-        });
+        // allCompletedData.then(data => {
+        //     console.log("CompletedTask response ===> " + data);
+        // })
     }
     deleteTask(id) {
         console.log("Delete button clicked ====> " + id);
-        const deleteTask = new Promise(async (resolve, reject) => {
+        new Promise(async (resolve, reject) => {
             let taskId = id;
             await fetch(`http://localhost:4000/toDo/${taskId}`, {
                 method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then((response) => {
+                console.log(response.message);
+                this.alertMsg.className = response.message ? 'msg-success' : 'msg-error';
+                response.message ? this.alertMsg.innerText = response.message : response.error;
+                setTimeout(() => {
+                    this.reset();
+                    location.reload();
+                }, 3500);
+            });
+        });
+    }
+    markAsCompleted(id) {
+        console.log("Completed taskID ==> " + id);
+        new Promise(async (resolve, reject) => {
+            let taskId = id;
+            await fetch(`http://localhost:4000/toDo/isCompleted/${taskId}`, {
+                method: 'PATCH'
             })
                 .then(res => res.json())
                 .then((response) => {
@@ -202,4 +218,7 @@ let deleteTask = (id) => {
 };
 let updateTask = (id) => {
     new TaskHandler().updateTask(id);
+};
+let markAsCompleted = (id) => {
+    new TaskHandler().markAsCompleted(id);
 };

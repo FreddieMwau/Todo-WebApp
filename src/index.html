@@ -11,9 +11,6 @@
 </head>
 <body>
     <div class="container">
-        <div class="alertBox" id="alertBox">
-            <p id="message"></p>
-        </div>
         <form id="newTask" class="new-task">
             <h4>Add Task</h4>
             <input type="text" id="todoTitle" placeholder="New task.....">
@@ -21,6 +18,10 @@
             <input type="date" id="todoDate" placeholder="Task description">
             <button id="addBtn" type="submit">Add Task</button>
         </form>
+
+        <div class="alertBox" id="alertBox">
+            <p id="message"></p>
+        </div>
 
         <!-- On going and new tasks container -->
         <div class="tasks" id="tasks">
