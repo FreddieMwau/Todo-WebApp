@@ -5,41 +5,67 @@
     padding: 0;
     box-sizing: border-box;
 }
+.msg-success{
+    font-family: 'Poppins', sans-serif;
+    color: green;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+}
 
+.msg-error {
+    font-family: 'Poppins', sans-serif;
+    color: red;
+    font-size: 17px;
+    font-weight: 500;
+    text-align: center;
+}
 body{
     height: 100vh;
-    background: linear-gradient(135deg, #8052ec, #d161ff);
+    background: linear-gradient(135deg, #6c6a70, #302f31);
 }
 
 .container{
     border: 2px solid white;
     width: 50%;
     min-width: 450px;
-    position: absolute;
+    margin: 90px 0;
+    position: relative;
     transform: translate(-50%,-50%);
     top: 50%;
     left: 50%;
     padding: 30px 40px;
 }
 
-#new-task{
+#alertBox{
+    display: flex;
+    justify-content: center;
+    background-color: #977e7e;
+    border: 1px solid #638ca3;
+    padding: 5px;
+    border-radius: 5px;
+    top: 50px;
+}
+
+#newTask{
     /* position: relative; */
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 120px;
     background-color: white;
     padding: 30px 20px;
     border-radius: 5px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-#new-task h4{
+#newTask h4{
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 15px;
 }
 
-#new-task input{
+#newTask input{
     width: 70%;
     height: 45px;
     font-family: 'Poppins', sans-serif;
@@ -52,7 +78,7 @@ body{
     position: relative;
 }
 
-#new-task button{
+#newTask button{
     position: relative;
     float: right;
     width: 20%;
@@ -79,11 +105,18 @@ body{
 
 .tasks .task{
     display: flex;
-    /* border:  1px solid blue; */
-    /* padding: 10px; */
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
 }
 
-.tasks h4.newTask,
+.tasks .task.color{
+    width: 3px;
+    background-color: blue;
+}
+
+.tasks h4.new-task,
 .completed-container h4.completedHint{
     color: dimgray;
     font-family: 'Courier New',
@@ -147,6 +180,7 @@ body{
     font-family: 'Poppins',
     sans-serif;
     font-weight: 500;
+    margin-right: 60px;
     font-size: 13px;
     background-color: #48a163;
     border: none;
@@ -158,6 +192,7 @@ body{
     float: right;
     width: 20%;
     height: 45px;
+    margin-right: 60px;
     border-radius: 5px;
     font-family: 'Poppins',
     sans-serif;
@@ -183,6 +218,12 @@ body{
     cursor: pointer;
 }
 
+/* .bottom-border{
+    border-bottom: 2px solid grey;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    width: 97%;
+} */
 #completed-container{
     background-color: white;
     padding: 30px 20px;

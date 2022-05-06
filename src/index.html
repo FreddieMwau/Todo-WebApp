@@ -11,19 +11,23 @@
 </head>
 <body>
     <div class="container">
-        <div id="new-task">
-            <h4>Add Task</h4>
-            <input type="text" class="todoTitle" id="todoTitle" placeholder="New task.....">
-            <input type="text" class="todoDescription" id="todoDescription" placeholder="Task description">
-            <input type="date" class="todoDate" id="todoDate" placeholder="Task description">
-            <button id="addBtn">Add Task</button>
+        <div class="alertBox" id="alertBox">
+            <p id="message"></p>
         </div>
+        <form id="newTask" class="new-task">
+            <h4>Add Task</h4>
+            <input type="text" id="todoTitle" placeholder="New task.....">
+            <input type="text" id="todoDescription" placeholder="Task description">
+            <input type="date" id="todoDate" placeholder="Task description">
+            <button id="addBtn" type="submit">Add Task</button>
+        </form>
 
         <!-- On going and new tasks container -->
         <div class="tasks" id="tasks">
-            <h4 class="newTask">New and Ongoing Tasks</h4>
-            <div class="task">
-                <!-- <div class="color"></div> -->
+            <h4 class="new-task">New and Ongoing Tasks</h4>
+            <div class="tasksContainer" id="tasksContainer"></div>
+            <!-- <div class="task">
+                <div class="color"></div>
                 <div class="task-info">
                     <h4 class="todoTitle">Report</h4>
                     <p class="todoDescription">Write week 4 training report</p>
@@ -43,13 +47,13 @@
                         <img src="/src/images/delete.png" class="deleteBtn" alt="deleteTask">
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <!-- Completed tasks container -->
         <div class="completed-container" id="completed-container">
             <h4 class="completedHint">Completed Tasks</h4>
-            <div class="completed-tasks" id="completed-tasks">
+            <!-- <div class="completed-tasks" id="completed-tasks">
                 <div class="completed-task">
                     <div class="completed-task-info">
                         <h4 class="todoTitle">Report</h4>
@@ -66,10 +70,10 @@
                         
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
-    <script src="/src/trial.js"></script>
+    <script src="/src/main.js"></script>
 </body>
 </html>
