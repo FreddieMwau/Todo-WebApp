@@ -69,14 +69,20 @@ class TaskHandler {
     private completedTaskContainer = <HTMLDivElement>document.getElementById('completed-container')
     private completedTaskDivElement = <HTMLDivElement>document.getElementById('completed-tasks')
     private todoAlertDiv = <HTMLDivElement>document.getElementById('alertBox')
+    private todoMsg = <HTMLParagraphElement>document.getElementById('noData')
+    private completeBtn = <HTMLButtonElement>document.getElementById('done')
+    private deleteBtn = <HTMLImageElement>document.getElementById('deleteBtn')
+    private editBtn = <HTMLImageElement>document.getElementById('editBtn')
+    private alertMsg = <HTMLParagraphElement>document.getElementById('message')
     constructor() {
-        // this.onGoingTaskDivElement.addEventListener('loadeddata', ()=> {
-
-
+        // this.deleteBtn.addEventListener('click', (e) => {
+        //     e.preventDefault()
+        //     this.deleteTask()
         // })
     }
 
     async getAllTasks() {
+        let noData:string
         const allData = new Promise(async (resolve, reject) => {
             console.log("Arrived");
             await fetch('http://localhost:4000/toDo/', {
@@ -87,19 +93,21 @@ class TaskHandler {
                 //     data.json()
                 //     console.log("============> Resolved data"+data);
                 // })
-                .then(res => res.json())
-                .then((allTasks) => {
-                    console.log("Taasks");
-                    console.log(allTasks);
-                    if (allTasks.length == 0) {
-                        console.log("No data");
-                    } else {
-                        allTasks.map((todo: any) => {
-                            console.log(todo);
-                            this.onGoingTaskContainerElement.innerHTML +=
-                                `<div class="task">
+            .then(res => res.json())
+            .then((allTasks) => {
+                // console.log("Tasks");
+                console.log(allTasks);
+                if (allTasks.length == 0) {
+                    console.log("No data");
+                    noData = 'No ToDo tasks available'
+                } else {
+                    allTasks.map((todo: any) => {
+                        console.log(todo);
+                        this.onGoingTaskContainerElement.innerHTML +=
+                            `<div class="task">
                                 <div class="color"></div>
                                 <div class="task-info">
+                                    <p class="noData"></p>
                                     <h4 class="todoTitle">${todo.title}</h4>
                                     <p class="todoDescription">${todo.description}</p>
 
@@ -113,26 +121,53 @@ class TaskHandler {
                                     </div>
 
                                     <div class="actions">
-                                        <img src="/src/images/quillpen.png" class="editBtn" alt="editTask">
+                                        <img src="/src/images/quillpen.png" class="editBtn"  id="editBtn" alt="editTask">
 
-                                        <img src="/src/images/delete.png" class="deleteBtn" alt="deleteTask">
+                                        <img src="/src/images/delete.png" class="deleteBtn" onClick="deleteTask('${todo.id}')" class="deleteBtn" alt="deleteTask">
                                     </div>
                                 </div>
                             </div>`
-                        })
-                    }
-                })
-                .catch(error => {
-                    reject(error.message)
-                    console.log("=====Error rejected " + error.message);
+                    })
+                }
+            })
+            .catch(error => {
+                reject(error.message)
+                console.log("=====Error rejected " + error.message);
 
-                })
+            })
         })
 
         allData.then(data => {
             console.log("====> The json " + data);
-
+            this.todoMsg.innerText = noData
         })
+    }
+
+    deleteTask(id: string){
+        console.log("Delete button clicked ====> " + id);
+        const deleteTask = new Promise<{message: string, error:string}>(async (resolve , reject) => {
+            let taskId = id
+            await fetch(`http://localhost:4000/toDo/${taskId}`, {
+                method: 'DELETE'
+            })
+                .then(res => res.json())
+                .then((response) => {
+                    console.log(response.message);
+                })
+        })
+
+        deleteTask.then(data => {
+            console.log("Delete response ===> " + data);
+            this.alertMsg.className = data.message ? 'msg-success' : 'msg-error'
+            data.message ? this.alertMsg.innerText = data.message: data.error
+            setTimeout(() => {
+                this.reset()
+                location.reload()
+            }, 1000)
+        })
+    }
+    reset() {
+        this.alertMsg.innerText = ''
     }
 }
 
@@ -144,3 +179,12 @@ new TaskHandler().getAllTasks()
 document.addEventListener('DOMContent', () => {
     new TaskHandler().getAllTasks()
 })
+
+// document.getElementById('deleteBtn')?.addEventListener('click', (e) => {
+//     e.preventDefault()
+//     new TaskHandler().deleteTask()
+// })
+
+let deleteTask = (id:string) => {
+    new TaskHandler().deleteTask(id)
+}
