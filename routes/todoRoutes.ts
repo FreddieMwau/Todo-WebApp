@@ -1,12 +1,14 @@
 import express from 'express'
-import { createTodo, deleteToDo, getAllToDos, isCompletedStatus, updateToDo } from '../controller/todoController'
+import { createTodo, deleteToDo, getAllCompletedToDos, getAllToDos, getAllUncompletedToDos, isCompletedStatus, updateToDo } from '../controller/todoController'
 const router = express.Router()
 
 
 router.post('/newToDo', createTodo)
 router.get('/', getAllToDos)
+router.get('/getCompleted', getAllCompletedToDos)
+router.get('/getUncompleted', getAllUncompletedToDos)
 router.patch('/:id', updateToDo)
 router.delete('/:id', deleteToDo)
-router.patch('/:id', isCompletedStatus)
+router.patch('/isCompleted/:id', isCompletedStatus)
 
 export default router
