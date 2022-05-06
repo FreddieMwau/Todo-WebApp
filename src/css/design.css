@@ -25,7 +25,7 @@ body{
     background: linear-gradient(135deg, #6c6a70, #302f31);
 }
 
-#noData{
+#noData, #completedData{
     font-family: 'Courier New', Courier, monospace;
     font-size: 12px;
     font-weight: 400;
@@ -112,7 +112,8 @@ body{
     position: relative;
 }
 
-.tasks .task{
+.tasks .task,
+.completed-tasks .completed-task{
     display: flex;
     border: 1px solid black;
     border-radius: 5px;

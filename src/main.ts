@@ -65,7 +65,9 @@ class Test {
 
 class TaskHandler {
     private onGoingTaskContainerElement = <HTMLDivElement>document.getElementById('tasksContainer')
-    private todoMsg = <HTMLParagraphElement>document.getElementById('noData')
+    private completedTaskContainerElement = <HTMLDivElement>document.getElementById('completed-tasks')
+    private todoMsg = <HTMLParagraphElement>document.getElementById('completeData')
+    private todoCompletedMsg = <HTMLParagraphElement>document.getElementById('completedData')
     private alertMsg = <HTMLParagraphElement>document.getElementById('message')
     constructor() {}
 
@@ -73,7 +75,7 @@ class TaskHandler {
         let noData:string
         const allData = new Promise(async (resolve, reject) => {
             console.log("Arrived");
-            await fetch('http://localhost:4000/toDo/', {
+            await fetch('http://localhost:4000/toDo/getUncompleted', {
                 method: 'GET'
             })
                 // .then(data => {
@@ -120,13 +122,65 @@ class TaskHandler {
             })
             .catch(error => {
                 reject(error.message)
-                console.log("=====Error rejected " + error.message);
+                console.log("=====>Error rejected " + error.message);
 
             })
         })
 
-        allData.then(data => {
-            console.log("====> The json " + data);
+        allData.then((data) => {
+            console.log("Uncompletetask response ===> " + data);
+        })
+
+        // allData.then(data => {
+        //     console.log("Uncompletetask response ===> " + data);
+            
+        // })
+    }
+
+    async getAllCompletedTasks() {
+        let completeData:string
+        const allCompletedData = new Promise(async (resolve,reject) => {
+            console.log("New Arrivals");
+            await fetch('http://localhost:4000/toDo/getCompleted',{
+                method: 'GET'
+            })
+            .then(res => res.json())
+            .then((allTasks) => {
+                console.log(allTasks);
+                if(allTasks.length == 0){
+                    completeData = 'No Completed Tasks at the moment.'
+                    console.log(completeData);
+                    this.todoCompletedMsg.innerText = completeData
+                } else {
+                    allTasks.map((tasks:any) => {
+                        console.log(tasks);
+                        this.completedTaskContainerElement.innerHTML += 
+                        `<div class="completed-task">
+                            <div class="completed-task-info">
+                                <h4 class="todoTitle">${tasks.title}</h4>
+                                <p class="todoDescription">${tasks.description}</p>
+                            
+                                <div class="time-status">
+                                    <p class="date">
+                                        <img src="/src/images/calendar.png" alt="">
+                                        ${tasks.date}
+                                    </p>
+                            
+                                    <button id="done" onclick="markDone(this)">Completed</button>
+                                </div>
+                            
+                            </div>
+                        </div>`
+                    })
+                }
+            })
+            .catch(error => {
+                reject(error.message)
+            })
+        })
+
+        allCompletedData.then(data => {
+            console.log("CompletedTask response ===> " + data);
             
         })
     }
@@ -163,15 +217,12 @@ class TaskHandler {
 new Test()
 
 new TaskHandler().getAllTasks()
+new TaskHandler().getAllCompletedTasks()
 
 document.addEventListener('DOMContent', () => {
-    new TaskHandler().getAllTasks()
+    new TaskHandler().getAllTasks()   
 })
 
-// document.getElementById('deleteBtn')?.addEventListener('click', (e) => {
-//     e.preventDefault()
-//     new TaskHandler().deleteTask()
-// })
 
 let deleteTask = (id:string) => {
     new TaskHandler().deleteTask(id)
