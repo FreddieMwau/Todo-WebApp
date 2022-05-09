@@ -8,6 +8,8 @@ const todoController_1 = require("../controller/todoController");
 const router = express_1.default.Router();
 router.post('/newToDo', todoController_1.createTodo);
 router.get('/', todoController_1.getAllToDos);
+router.get('/getToDo/:id', todoController_1.getToDoById);
+router.delete('/deleteTasks/', todoController_1.deleteAllTasks);
 router.get('/getCompleted', todoController_1.getAllCompletedToDos);
 router.get('/getUncompleted', todoController_1.getAllUncompletedToDos);
 router.patch('/:id', todoController_1.updateToDo);

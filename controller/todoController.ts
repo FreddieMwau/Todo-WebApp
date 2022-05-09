@@ -2,6 +2,7 @@ import { Request, RequestHandler, Response } from "express";
 import { v1 as uid} from 'uuid'
 import mssql from 'mssql'
 import sqlConfig from "../config/config";
+import { newTask } from "../helpers/formValidator";
 
 // Create a new task
 export const createTodo = async (req:Request, res:Response) => {
@@ -10,6 +11,11 @@ export const createTodo = async (req:Request, res:Response) => {
         const isCompleted: boolean = false
         const { title, description, date } = req.body as { title: string, description: string, date: string }
         let dbPool = await mssql.connect(sqlConfig)
+        // validation
+        const {error} = newTask.validate(req.body)
+        if(error) {
+            return res.json({error: error.details[0].message})
+        }
         await dbPool.request()
             .input('id', mssql.VarChar, id)
             .input('title', mssql.VarChar, title)
@@ -35,6 +41,35 @@ export const getAllToDos = async (req:Request, res:Response) => {
     }
 }
 
+// Delete all tasks
+export const deleteAllTasks: RequestHandler = async (req, res) => {
+    try{
+        let dbPool = await mssql.connect(sqlConfig)
+        dbPool.request().execute('deleteAllToDos')
+        res.status(200).json({message: "All tasks deleted"})
+    } catch(error:any){
+        res.json({error: error.message})
+    }
+}
+
+// Get task by Id
+export const getToDoById:RequestHandler<{id:string}> = async (req, res) => {
+    try{
+        const toDoId= req.params.id
+        let dbPool = await mssql.connect(sqlConfig)
+        const toDoById = await dbPool.request()
+        .input('id', mssql.VarChar, toDoId)
+            .execute('getToDoById')
+        if(!toDoById.recordset[0]){
+            return res.json({message: `No ToDo task with id : ${toDoId} exists`})
+        } else{
+            return res.json(toDoById.recordset[0])
+        }
+    } catch (error:any){
+        res.json({ error: error.message })
+    }
+}
+
 // Updates Tasks
 export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
     try{
@@ -49,6 +84,12 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
         
         if(!toDo.recordset[0]){   
             return res.json({message: `ToDo task with id :${id} does not exist in our DB` })
+        }
+
+        // Validation
+        const{error} = newTask.validate(req.body)
+        if(error){
+            return res.json({error: error.details[0].message})
         }
 
         await dbPool.request()

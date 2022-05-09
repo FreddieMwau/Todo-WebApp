@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllUncompletedToDos = exports.getAllCompletedToDos = exports.isCompletedStatus = exports.deleteToDo = exports.updateToDo = exports.getAllToDos = exports.createTodo = void 0;
+exports.getAllUncompletedToDos = exports.getAllCompletedToDos = exports.isCompletedStatus = exports.deleteToDo = exports.updateToDo = exports.getToDoById = exports.deleteAllTasks = exports.getAllToDos = exports.createTodo = void 0;
 const uuid_1 = require("uuid");
 const mssql_1 = __importDefault(require("mssql"));
 const config_1 = __importDefault(require("../config/config"));
+const formValidator_1 = require("../helpers/formValidator");
 // Create a new task
 const createTodo = async (req, res) => {
     try {
@@ -14,6 +15,11 @@ const createTodo = async (req, res) => {
         const isCompleted = false;
         const { title, description, date } = req.body;
         let dbPool = await mssql_1.default.connect(config_1.default);
+        // validation
+        const { error } = formValidator_1.newTask.validate(req.body);
+        if (error) {
+            return res.json({ error: error.details[0].message });
+        }
         await dbPool.request()
             .input('id', mssql_1.default.VarChar, id)
             .input('title', mssql_1.default.VarChar, title)
@@ -41,6 +47,38 @@ const getAllToDos = async (req, res) => {
     }
 };
 exports.getAllToDos = getAllToDos;
+// Delete all tasks
+const deleteAllTasks = async (req, res) => {
+    try {
+        let dbPool = await mssql_1.default.connect(config_1.default);
+        dbPool.request().execute('deleteAllToDos');
+        res.status(200).json({ message: "All tasks deleted" });
+    }
+    catch (error) {
+        res.json({ error: error.message });
+    }
+};
+exports.deleteAllTasks = deleteAllTasks;
+// Get task by Id
+const getToDoById = async (req, res) => {
+    try {
+        const toDoId = req.params.id;
+        let dbPool = await mssql_1.default.connect(config_1.default);
+        const toDoById = await dbPool.request()
+            .input('id', mssql_1.default.VarChar, toDoId)
+            .execute('getToDoById');
+        if (!toDoById.recordset[0]) {
+            return res.json({ message: `No ToDo task with id : ${toDoId} exists` });
+        }
+        else {
+            return res.json(toDoById.recordset[0]);
+        }
+    }
+    catch (error) {
+        res.json({ error: error.message });
+    }
+};
+exports.getToDoById = getToDoById;
 // Updates Tasks
 const updateToDo = async (req, res) => {
     try {
@@ -53,6 +91,11 @@ const updateToDo = async (req, res) => {
             .execute('getToDoById');
         if (!toDo.recordset[0]) {
             return res.json({ message: `ToDo task with id :${id} does not exist in our DB` });
+        }
+        // Validation
+        const { error } = formValidator_1.newTask.validate(req.body);
+        if (error) {
+            return res.json({ error: error.details[0].message });
         }
         await dbPool.request()
             .input('id', mssql_1.default.VarChar, id)

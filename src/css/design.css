@@ -89,7 +89,14 @@ body{
     position: relative;
 }
 
-#newTask button{
+#newTask .button-row {
+    display: flex;
+    flex-direction: row;
+    width: 55vh;
+    justify-content: space-evenly;
+}
+
+#newTask .button-row button{
     position: relative;
     float: right;
     width: 20%;
@@ -97,13 +104,20 @@ body{
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    font-size: 16px;
-    background-color: #8052ec;
+    font-size: 10px;
     border: none;
     color: white;
     cursor: pointer;
 }
-
+#newTask .button-row button#addBtn{
+    background-color: forestgreen;
+}
+#newTask .button-row button#updateBtn{
+    background-color: dodgerblue;
+}
+#newTask .button-row button#deleteBtn{
+    background-color: orangered;
+}
 #tasks{
     background-color: white;
     padding: 30px 20px;
