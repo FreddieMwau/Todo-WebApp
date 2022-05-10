@@ -8,7 +8,6 @@ import { newTask } from "../helpers/formValidator";
 export const createTodo = async (req:Request, res:Response) => {
     try{
         const id = uid()
-        const isCompleted: boolean = false
         const { title, description, date } = req.body as { title: string, description: string, date: string }
         let dbPool = await mssql.connect(sqlConfig)
         // validation
@@ -21,7 +20,7 @@ export const createTodo = async (req:Request, res:Response) => {
             .input('title', mssql.VarChar, title)
             .input('description', mssql.VarChar, description)
             .input('date', mssql.VarChar, date)
-            .input('isCompleted', mssql.Bit, isCompleted)
+            // .input('isCompleted', mssql.Bit, isCompleted)
             .execute('createToDo')
         res.json({ message: "ToDo task created successfully" })
     } catch (error: any){
@@ -122,7 +121,8 @@ export const deleteToDo: RequestHandler<{ id: string }> = async(req, res) => {
         (await dbPool).request()
             .input('id', mssql.VarChar, id)
             .execute('deleteTask')
-        res.status(200).json({ message: "Task deleted successfully" })
+        res.status(200)
+            .json({ message: "Task deleted successfully" })
     } catch(error: any){
         res.json({error: error.message})
     }
@@ -152,8 +152,6 @@ export const isCompletedStatus: RequestHandler<{id:string}> = async (req, res) =
 
         res.json({message: 'isCompleted status updated'})
 
-
-
     } catch(error: any){
         res.json({error: error.message})
     }
@@ -163,7 +161,9 @@ export const isCompletedStatus: RequestHandler<{id:string}> = async (req, res) =
 export const getAllCompletedToDos: RequestHandler = async (req, res) => {
     try{
         let dbPool = await mssql.connect(sqlConfig)
-        const completedTodos = await dbPool.request().execute('getCompletedToDos')
+        const completedTodos = await dbPool
+            .request()
+            .execute('getCompletedToDos')
         res.json(completedTodos.recordset)
     } catch (error: any) {
         res.json({error: error.message})
@@ -174,7 +174,9 @@ export const getAllCompletedToDos: RequestHandler = async (req, res) => {
 export const getAllUncompletedToDos: RequestHandler = async (req, res) => {
     try {
         let dbPool = await mssql.connect(sqlConfig)
-        const completedTodos = await dbPool.request().execute('getUnCompletedToDos')
+        const completedTodos = await dbPool
+            .request()
+            .execute('getUnCompletedToDos')
         res.json(completedTodos.recordset)
     } catch (error: any) {
         res.json({ error: error.message })

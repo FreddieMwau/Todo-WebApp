@@ -262,3 +262,20 @@ body{
     position: relative;
 }
 
+#completed-early{
+    color: forestgreen;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+#completed-onTime{
+    font-weight: 500;
+    color: sandybrown;
+    font-size: 12px;
+}
+
+#completed-late{
+    font-weight: 500;
+    color: maroon;
+    font-size: 12px;
+}

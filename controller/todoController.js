@@ -12,7 +12,6 @@ const formValidator_1 = require("../helpers/formValidator");
 const createTodo = async (req, res) => {
     try {
         const id = (0, uuid_1.v1)();
-        const isCompleted = false;
         const { title, description, date } = req.body;
         let dbPool = await mssql_1.default.connect(config_1.default);
         // validation
@@ -25,7 +24,7 @@ const createTodo = async (req, res) => {
             .input('title', mssql_1.default.VarChar, title)
             .input('description', mssql_1.default.VarChar, description)
             .input('date', mssql_1.default.VarChar, date)
-            .input('isCompleted', mssql_1.default.Bit, isCompleted)
+            // .input('isCompleted', mssql.Bit, isCompleted)
             .execute('createToDo');
         res.json({ message: "ToDo task created successfully" });
     }
@@ -125,7 +124,8 @@ const deleteToDo = async (req, res) => {
         (await dbPool).request()
             .input('id', mssql_1.default.VarChar, id)
             .execute('deleteTask');
-        res.status(200).json({ message: "Task deleted successfully" });
+        res.status(200)
+            .json({ message: "Task deleted successfully" });
     }
     catch (error) {
         res.json({ error: error.message });
@@ -160,7 +160,9 @@ exports.isCompletedStatus = isCompletedStatus;
 const getAllCompletedToDos = async (req, res) => {
     try {
         let dbPool = await mssql_1.default.connect(config_1.default);
-        const completedTodos = await dbPool.request().execute('getCompletedToDos');
+        const completedTodos = await dbPool
+            .request()
+            .execute('getCompletedToDos');
         res.json(completedTodos.recordset);
     }
     catch (error) {
@@ -172,7 +174,9 @@ exports.getAllCompletedToDos = getAllCompletedToDos;
 const getAllUncompletedToDos = async (req, res) => {
     try {
         let dbPool = await mssql_1.default.connect(config_1.default);
-        const completedTodos = await dbPool.request().execute('getUnCompletedToDos');
+        const completedTodos = await dbPool
+            .request()
+            .execute('getUnCompletedToDos');
         res.json(completedTodos.recordset);
     }
     catch (error) {

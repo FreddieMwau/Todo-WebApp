@@ -22,6 +22,7 @@ const checkDbConnection = async () => {
             
         }
     } catch (error: any){
+        error.message
         console.log(error.message);
         
     }
