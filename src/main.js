@@ -157,6 +157,11 @@ class TaskHandler {
                                         <button id="done" onclick="markAsCompleted('${todo.id}')">Mark as Done</button>
                                     </div>
 
+                                    <div class="assigned">
+                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <p class="assigned-person">${todo.assignEmail}</p>
+                                    </div>
+
                                     <div class="actions">
                                         <img src="/src/images/quillpen.png" onClick="updateTask('${todo.id}')" id="editBtn" alt="editTask">
 
@@ -187,6 +192,7 @@ class TaskHandler {
                 else {
                     allCompletedTasks.map((tasks) => {
                         let timeCompleted;
+                        console.log(tasks);
                         let difference = tasks.hourDifference / 24;
                         if (difference > 0) {
                             timeCompleted = `<p id="completed-early">Task completed early by ${difference} day's</p>`;
@@ -212,6 +218,10 @@ class TaskHandler {
                                 </div>
                                 ${timeCompleted}
                             
+                                <div class="assigned">
+                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <p class="assigned-person">${tasks.assignEmail}</p>
+                                </div>
                             </div>
                         </div>`;
                     });

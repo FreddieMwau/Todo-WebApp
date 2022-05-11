@@ -8,7 +8,7 @@ import { newTask } from "../helpers/formValidator";
 export const createTodo = async (req:Request, res:Response) => {
     try{
         const id = uid()
-        const { title, description, date } = req.body as { title: string, description: string, date: string }
+        const { title, description, date, assignEmail } = req.body as { title: string, description: string, date: string, assignEmail: string }
         let dbPool = await mssql.connect(sqlConfig)
         // validation
         const {error} = newTask.validate(req.body)
@@ -20,7 +20,7 @@ export const createTodo = async (req:Request, res:Response) => {
             .input('title', mssql.VarChar, title)
             .input('description', mssql.VarChar, description)
             .input('date', mssql.VarChar, date)
-            // .input('isCompleted', mssql.Bit, isCompleted)
+            .input('assignEmail', mssql.VarChar, assignEmail)
             .execute('createToDo')
         res.json({ message: "ToDo task created successfully" })
     } catch (error: any){
@@ -57,7 +57,7 @@ export const getToDoById:RequestHandler<{id:string}> = async (req, res) => {
         const toDoId= req.params.id
         let dbPool = await mssql.connect(sqlConfig)
         const toDoById = await dbPool.request()
-        .input('id', mssql.VarChar, toDoId)
+            .input('id', mssql.VarChar, toDoId)
             .execute('getToDoById')
         if(!toDoById.recordset[0]){
             return res.json({message: `No ToDo task with id : ${toDoId} exists`})
@@ -74,7 +74,7 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
     try{
         const id = req.params.id
         let dbPool = await mssql.connect(sqlConfig)
-        const { title, description, date} = req.body as { title: string, description: string, date: string }
+        const { title, description, date, assignedEmail } = req.body as { title: string, description: string, date: string, assignedEmail: string }
 
         // check if task exists
         const toDo = await dbPool.request()
@@ -96,6 +96,7 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
             .input('title', mssql.VarChar, title)
             .input('description', mssql.VarChar, description)
             .input('date', mssql.VarChar, date)
+            .input('assignEmail', mssql.Bit, assignedEmail)
             .execute('updateToDo')
         res.json({message: "Task updated successfully"})
     } catch(error:any){

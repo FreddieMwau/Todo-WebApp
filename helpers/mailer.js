@@ -1,0 +1,29 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+dotenv_1.default.config();
+function createTransporter(config) {
+    // Transporter
+    let transport = nodemailer_1.default.createTransport(config);
+    return transport;
+}
+const configuration = {
+    port: 587,
+    host: 'smtp.gmail.com',
+    secure: false,
+    requireTLS: true,
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASS
+    }
+};
+const sentMail = async (mailoption) => {
+    const transporter = createTransporter(configuration);
+    await transporter.verify(); //checks the authentication
+    await transporter.sendMail(mailoption);
+};
+exports.default = sentMail;

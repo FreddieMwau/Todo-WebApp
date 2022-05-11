@@ -172,6 +172,11 @@ class TaskHandler {
                                         <button id="done" onclick="markAsCompleted('${todo.id}')">Mark as Done</button>
                                     </div>
 
+                                    <div class="assigned">
+                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <p class="assigned-person">${todo.assignEmail}</p>
+                                    </div>
+
                                     <div class="actions">
                                         <img src="/src/images/quillpen.png" onClick="updateTask('${todo.id}')" id="editBtn" alt="editTask">
 
@@ -202,6 +207,8 @@ class TaskHandler {
                 } else {
                     allCompletedTasks.map((tasks:any) => {
                         let timeCompleted : string
+                        console.log(tasks);
+                        
                         let difference: number = tasks.hourDifference / 24
 
                         if(difference > 0){
@@ -226,6 +233,10 @@ class TaskHandler {
                                 </div>
                                 ${timeCompleted}
                             
+                                <div class="assigned">
+                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <p class="assigned-person">${tasks.assignEmail}</p>
+                                </div>
                             </div>
                         </div>`
                     })

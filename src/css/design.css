@@ -279,3 +279,21 @@ body{
     color: maroon;
     font-size: 12px;
 }
+
+.assigned{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.email{
+    width: 20px;
+    height: 20px;
+}
+
+.assigned-person{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    color: grey;
+    font-weight: 500;
+}
