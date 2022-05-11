@@ -3,6 +3,7 @@ import mssql from 'mssql'
 import sqlConfig from './config/config'
 import router from './routes/todoRoutes'
 import cors from 'cors'
+import cron from 'node-cron'
 import mailerService from './mailerService/mail'
 
 const app = express()
@@ -14,7 +15,11 @@ app.listen(4000, () => {
 })
 
 const run = async () => {
-    await mailerService()
+    cron.schedule('* * * * *', async () => {
+        await mailerService()
+        console.log('Running after every minute');
+        
+    })
 }
 
 const checkDbConnection = async () => {

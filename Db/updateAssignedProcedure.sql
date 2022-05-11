@@ -1,0 +1,4 @@
+CREATE OR ALTER PROCEDURE updateAssignedEmail(@id VARCHAR(50))
+AS BEGIN
+UPDATE ToDos SET isSent=1 WHERE id=@id
+END

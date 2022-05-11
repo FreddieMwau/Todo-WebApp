@@ -74,7 +74,7 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
     try{
         const id = req.params.id
         let dbPool = await mssql.connect(sqlConfig)
-        const { title, description, date, assignedEmail } = req.body as { title: string, description: string, date: string, assignedEmail: string }
+        const { title, description, date, assignEmail } = req.body as { title: string, description: string, date: string, assignEmail: string }
 
         // check if task exists
         const toDo = await dbPool.request()
@@ -96,7 +96,7 @@ export const updateToDo: RequestHandler<{ id: string }> = async (req, res) => {
             .input('title', mssql.VarChar, title)
             .input('description', mssql.VarChar, description)
             .input('date', mssql.VarChar, date)
-            .input('assignEmail', mssql.Bit, assignedEmail)
+            .input('assignEmail', mssql.VarChar, assignEmail)
             .execute('updateToDo')
         res.json({message: "Task updated successfully"})
     } catch(error:any){

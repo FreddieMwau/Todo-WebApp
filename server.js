@@ -8,6 +8,7 @@ const mssql_1 = __importDefault(require("mssql"));
 const config_1 = __importDefault(require("./config/config"));
 const todoRoutes_1 = __importDefault(require("./routes/todoRoutes"));
 const cors_1 = __importDefault(require("cors"));
+const node_cron_1 = __importDefault(require("node-cron"));
 const mail_1 = __importDefault(require("./mailerService/mail"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: true }));
@@ -17,7 +18,10 @@ app.listen(4000, () => {
     console.log("App running on server ====> 4000");
 });
 const run = async () => {
-    await (0, mail_1.default)();
+    node_cron_1.default.schedule('* * * * *', async () => {
+        await (0, mail_1.default)();
+        console.log('Running after every minute');
+    });
 };
 const checkDbConnection = async () => {
     try {

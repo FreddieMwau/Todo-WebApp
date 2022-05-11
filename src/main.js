@@ -2,6 +2,7 @@
 class createTask {
     titleInput = document.getElementById('todoTitle');
     descriptionInput = document.getElementById('todoDescription');
+    assignEmailInput = document.getElementById('assignedEmail');
     dateInput = document.getElementById('todoDate');
     form = document.querySelector('#newTask');
     addBtn = document.getElementById('addBtn');
@@ -31,7 +32,8 @@ class createTask {
                 body: JSON.stringify({
                     title: this.titleInput.value,
                     description: this.descriptionInput.value,
-                    date: this.dateInput.value
+                    date: this.dateInput.value,
+                    assignEmail: this.assignEmailInput.value,
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -151,7 +153,7 @@ class TaskHandler {
                                     <div class="time-status">
                                         <p class="date">
                                             <img src="/src/images/calendar.png" alt="">
-                                            ${todo.date}
+                                            ${new Date(todo.date).toLocaleDateString()}
                                         </p>
 
                                         <button id="done" onclick="markAsCompleted('${todo.id}')">Mark as Done</button>
@@ -212,7 +214,7 @@ class TaskHandler {
                                 <div class="time-status">
                                     <p class="date">
                                         <img src="/src/images/calendar.png" alt="">
-                                        ${tasks.date}
+                                        ${tasks.completedDate}
                                     </p>
                                     <button id="done" onclick="markDone(this)">Completed</button>
                                 </div>

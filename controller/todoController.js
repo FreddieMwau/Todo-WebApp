@@ -83,7 +83,7 @@ const updateToDo = async (req, res) => {
     try {
         const id = req.params.id;
         let dbPool = await mssql_1.default.connect(config_1.default);
-        const { title, description, date, assignedEmail } = req.body;
+        const { title, description, date, assignEmail } = req.body;
         // check if task exists
         const toDo = await dbPool.request()
             .input('id', mssql_1.default.VarChar, id)
@@ -101,7 +101,7 @@ const updateToDo = async (req, res) => {
             .input('title', mssql_1.default.VarChar, title)
             .input('description', mssql_1.default.VarChar, description)
             .input('date', mssql_1.default.VarChar, date)
-            .input('assignEmail', mssql_1.default.Bit, assignedEmail)
+            .input('assignEmail', mssql_1.default.VarChar, assignEmail)
             .execute('updateToDo');
         res.json({ message: "Task updated successfully" });
     }

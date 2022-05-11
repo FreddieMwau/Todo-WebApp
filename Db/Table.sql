@@ -6,6 +6,8 @@ CREATE TABLE ToDos
     isCompleted BIT DEFAULT 0,  
     date DATE,
     assignEmail VARCHAR(150),
-    completedDate DATE DEFAULT NULL
+    completedDate DATE DEFAULT NULL,
+    isSent BIT DEFAULT 0,
+    isAdminSent BIT DEFAULT 0
 )
 
