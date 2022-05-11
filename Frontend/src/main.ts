@@ -30,6 +30,7 @@ class createTask {
 
     private submitData() {
         console.log(this.titleInput.value);
+        console.log(this.titleInput.value);
         const promise = new Promise<{ message: string, error: string }>((resolve, reject) => {
             fetch('http://localhost:4000/toDo/newToDo', {
                 method: 'POST',
@@ -175,14 +176,14 @@ class TaskHandler {
                                     </div>
 
                                     <div class="assigned">
-                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <img src="/Frontend/src/images/mail.png" alt="mail" class="email">
                                         <p class="assigned-person">${todo.assignEmail}</p>
                                     </div>
 
                                     <div class="actions">
-                                        <img src="/src/images/quillpen.png" onClick="updateTask('${todo.id}')" id="editBtn" alt="editTask">
+                                        <img src="/Frontend/src/images/quillpen.png" onClick="updateTask('${todo.id}')" id="editBtn" alt="editTask">
 
-                                        <img src="/src/images/delete.png" onClick="deleteTask('${todo.id}')" class="deleteBtn" alt="deleteTask">
+                                        <img src="/Frontend/src/images/delete.png" onClick="deleteTask('${todo.id}')" class="deleteBtn" alt="deleteTask">
                                     </div>
                                 </div>
                             </div>`
@@ -236,7 +237,7 @@ class TaskHandler {
                                 ${timeCompleted}
                             
                                 <div class="assigned">
-                                        <img src="/src/images/mail.png" alt="mail" class="email">
+                                        <img src="/Frontend/src/images/mail.png" alt="mail" class="email">
                                         <p class="assigned-person">${tasks.assignEmail}</p>
                                 </div>
                             </div>

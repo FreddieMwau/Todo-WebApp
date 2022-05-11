@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const ejs_1 = __importDefault(require("ejs"));
 const mssql_1 = __importDefault(require("mssql"));
-const config_1 = __importDefault(require("../config/config"));
 const mailer_1 = __importDefault(require("../helpers/mailer"));
+const config_1 = __importDefault(require("../../Backend/config/config"));
 dotenv_1.default.config();
 const emailingService = async () => {
     const dbPool = await mssql_1.default.connect(config_1.default);
@@ -19,7 +19,6 @@ const emailingService = async () => {
         .request()
         .execute('getCompletedTasks'))
         .recordset;
-    // console.log(completedTasks);
     for (let task of completedTasks) {
         ejs_1.default.renderFile('./templates/registration.ejs', { name: task.assignEmail }, async (error, data) => {
             const mailOption = {

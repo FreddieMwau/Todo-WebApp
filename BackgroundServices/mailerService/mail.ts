@@ -1,8 +1,9 @@
 import dotenv from 'dotenv'
 import ejs from 'ejs'
 import mssql from 'mssql'
-import sqlConfig from '../config/config'
+
 import sentMail from '../helpers/mailer'
+import sqlConfig from '../../Backend/config/config'
 dotenv.config()
 
 interface userInterface {
@@ -36,8 +37,6 @@ const emailingService = async ()=> {
         .request()
         .execute('getCompletedTasks'))
         .recordset
-
-    // console.log(completedTasks);
 
     for(let task of completedTasks){
         ejs.renderFile('./templates/registration.ejs', {name: task.assignEmail}, async (error, data) => {

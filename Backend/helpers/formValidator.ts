@@ -5,4 +5,5 @@ export const newTask = Joi.object({
     description: Joi.string().required(),
     date: Joi.string().required(),
     assignEmail: Joi.string().email()
+    
 })

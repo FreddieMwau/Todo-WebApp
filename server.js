@@ -5,24 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mssql_1 = __importDefault(require("mssql"));
-const config_1 = __importDefault(require("./config/config"));
-const todoRoutes_1 = __importDefault(require("./routes/todoRoutes"));
+const config_1 = __importDefault(require("./Backend/config/config"));
+const todoRoutes_1 = __importDefault(require("./Backend/routes/todoRoutes"));
 const cors_1 = __importDefault(require("cors"));
-const node_cron_1 = __importDefault(require("node-cron"));
-const mail_1 = __importDefault(require("./mailerService/mail"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: true }));
 app.use(express_1.default.json());
 app.use('/toDo', todoRoutes_1.default);
 app.listen(4000, () => {
-    console.log("App running on server ====> 4000");
+    console.log("Backend running on server port => 4000");
 });
-const run = async () => {
-    node_cron_1.default.schedule('* * * * *', async () => {
-        await (0, mail_1.default)();
-        console.log('Running after every minute');
-    });
-};
 const checkDbConnection = async () => {
     try {
         const x = await mssql_1.default.connect(config_1.default);
@@ -36,4 +28,3 @@ const checkDbConnection = async () => {
     }
 };
 checkDbConnection();
-run();
