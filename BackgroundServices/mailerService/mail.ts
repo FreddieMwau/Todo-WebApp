@@ -26,20 +26,33 @@ interface adminInterface {
 }
 
 const emailingService = async ()=> {
+    console.log("emails");
+    
 
+    console.log("B4 connecting db");
+    
     const dbPool = await mssql.connect(sqlConfig)
+    console.log("DB Connected");
+    
     const users: userInterface[]= (await dbPool
         .request()
         .execute('getNewTasks'))
         .recordset
+    console.log(users);
+        
 
     const completedTasks : adminInterface[] = (await dbPool
         .request()
         .execute('getCompletedTasks'))
         .recordset
+    console.log(completedTasks);
+        
 
     for(let task of completedTasks){
-        ejs.renderFile('./templates/registration.ejs', {name: task.assignEmail}, async (error, data) => {
+        console.log("Emailing admin");
+        ejs.renderFile('/home/jokinggenius/Dev/typescript/toDoApp/BackgroundServices/templates/registration.ejs', 
+                            {name: task.assignEmail, title: task.title, dueDate:task.date, description: task.description, completedDate: task.completedDate}, 
+                            async (error, data) => {
             const mailOption = {
                 from: process.env.EMAIL as string,
                 to: process.env.EMAIL as string,
@@ -49,6 +62,7 @@ const emailingService = async ()=> {
                         <p>The task is ${task.title}</p>
                         <p>The description is ${task.description}</p>
                         <p>It is due on ${new Date(task.date).toLocaleString()} and was completed on ${new Date(task.completedDate).toLocaleDateString()}</p>`,
+                // html:data
             }
             try{
                 await sentMail(mailOption)
@@ -64,10 +78,14 @@ const emailingService = async ()=> {
 
         })
     }
-    
+
+    console.log("B4 Emailing user");
     for(let user of users ){
+        console.log(user);
+        
+        console.log("Emailing user");
         // using the ejs file
-        ejs.renderFile("./templates/registration.ejs", { name: user.assignEmail, task: user.title }, async (error, data) => {
+        ejs.renderFile("./BackgroundServices/templates/registration.ejs", { name: user.assignEmail, task: user.title, dueDate: user.date, description: user.description }, async (error, data) => {
             // mail options
             const mailOptions = {
                 from: process.env.EMAIL as string,
@@ -91,6 +109,7 @@ const emailingService = async ()=> {
             try {
                 // sending the email
                 await sentMail(mailOptions)
+                console.log("Emailing endi");
                 await dbPool.request()
                         .input('id', mssql.VarChar , user.id)
                         .execute('updateAssignedEmail')

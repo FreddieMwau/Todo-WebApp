@@ -18,6 +18,7 @@ const configuration = {
         user: process.env.EMAIL as string,
         pass: process.env.EMAIL_PASS as string
     }
+    
 }
 
 const sentMail = async (mailoption:any) => {

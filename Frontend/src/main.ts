@@ -29,8 +29,6 @@ class createTask {
     }
 
     private submitData() {
-        console.log(this.titleInput.value);
-        console.log(this.titleInput.value);
         const promise = new Promise<{ message: string, error: string }>((resolve, reject) => {
             fetch('http://localhost:4000/toDo/newToDo', {
                 method: 'POST',
@@ -154,7 +152,6 @@ class TaskHandler {
                 // })
             .then(res => res.json())
             .then((allUncompletedTasks) => {
-                console.log(allUncompletedTasks);
                 if (allUncompletedTasks.length == 0) {
                     noData = 'No pending ToDo tasks available'
                     this.todoMsg.innerText = noData
@@ -168,7 +165,7 @@ class TaskHandler {
 
                                     <div class="time-status">
                                         <p class="date">
-                                            <img src="/src/images/calendar.png" alt="">
+                                            <img src="/Frontend/src/images/calendar.png" alt="">
                                             ${new Date(todo.date).toLocaleDateString()}
                                         </p>
 
@@ -205,13 +202,12 @@ class TaskHandler {
             .then(res => res.json())
             .then((allCompletedTasks) => {
                 if(allCompletedTasks.length == 0){
+                    console.log(allCompletedTasks);
                     completeData = 'No Completed Tasks at the moment.'
                     this.todoCompletedMsg.innerText = completeData
                 } else {
                     allCompletedTasks.map((tasks:any) => {
-                        let timeCompleted : string
-                        console.log(tasks);
-                        
+                        let timeCompleted : string                        
                         let difference: number = tasks.hourDifference / 24
 
                         if(difference > 0){
@@ -229,7 +225,7 @@ class TaskHandler {
                             
                                 <div class="time-status">
                                     <p class="date">
-                                        <img src="/src/images/calendar.png" alt="">
+                                        <img src="/Frontend/src/images/calendar.png" alt="">
                                         ${tasks.completedDate}
                                     </p>
                                     <button id="done" onclick="markDone(this)">Completed</button>

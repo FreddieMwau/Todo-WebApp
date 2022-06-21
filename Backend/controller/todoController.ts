@@ -135,7 +135,6 @@ export const isCompletedStatus: RequestHandler<{id:string}> = async (req, res) =
     try{
         const id = req.params.id
         let dbPool = mssql.connect(sqlConfig)
-
         let isCompleted: boolean = true
 
         // check if task exists
